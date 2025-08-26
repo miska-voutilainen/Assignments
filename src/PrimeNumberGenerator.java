@@ -1,8 +1,8 @@
-import java.util.Scanner;
+import java.util.Scanner; // Import Scanner class for user input
 
 public class PrimeNumberGenerator {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in); // Create Scanner object
         int start, end;
 
         // Prompt user for valid input
@@ -13,6 +13,7 @@ public class PrimeNumberGenerator {
             System.out.print("Enter the end number (positive integer): ");
             end = scanner.nextInt();
 
+            // Validate input: both numbers must be positive and start < end
             if (start > 0 && end > 0 && start < end) {
                 break;
             } else {
@@ -29,15 +30,15 @@ public class PrimeNumberGenerator {
             }
         }
 
-        scanner.close();
+        scanner.close(); // Close Scanner to free resources
     }
 
     // Helper method to check if a number is prime
     public static boolean isPrime(int num) {
-        if (num < 2) return false;
+        if (num < 2) return false; // 0 and 1 are not prime
         for (int i = 2; i <= Math.sqrt(num); i++) {
-            if (num % i == 0) return false;
+            if (num % i == 0) return false; // If divisible, not prime
         }
-        return true;
+        return true; // Otherwise, it's prime
     }
 }

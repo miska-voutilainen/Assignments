@@ -1,6 +1,8 @@
 import java.util.*;
 
 public class GroceryListManager {
+
+    // Inner class representing a grocery item
     private static class GroceryItem {
         String name;
         double cost;
@@ -20,9 +22,11 @@ public class GroceryListManager {
         }
     }
 
+    // Map to store grocery items by name
     private Map<String, GroceryItem> groceryList = new HashMap<>();
     private Scanner scanner = new Scanner(System.in);
 
+    // Main loop
     public void start() {
         boolean running = true;
         while (running) {
@@ -55,20 +59,22 @@ public class GroceryListManager {
         }
     }
 
+    // Add item
     private void addItemInteractive() {
         System.out.print("\nEnter item name: ");
         String name = scanner.nextLine();
-        System.out.print("\nEnter cost: ");
+        System.out.print("Enter cost: ");
         double cost = Double.parseDouble(scanner.nextLine());
-        System.out.print("\nEnter category: ");
+        System.out.print("Enter category: ");
         String category = scanner.nextLine();
-        System.out.print("\nEnter quantity: ");
+        System.out.print("Enter quantity: ");
         int quantity = Integer.parseInt(scanner.nextLine());
 
         groceryList.put(name, new GroceryItem(name, cost, category, quantity));
         System.out.println(name + " added to the list.");
     }
 
+    // Remove item
     private void removeItemInteractive() {
         System.out.print("Enter item name to remove: ");
         String name = scanner.nextLine();
@@ -79,12 +85,14 @@ public class GroceryListManager {
         }
     }
 
+    // Check if item exists
     private void checkItemInteractive() {
         System.out.print("Enter item name to check: ");
         String name = scanner.nextLine();
         System.out.println(name + " is in the list? " + groceryList.containsKey(name));
     }
 
+    // Update quantity
     private void updateQuantityInteractive() {
         System.out.print("Enter item name to update quantity: ");
         String name = scanner.nextLine();
@@ -99,12 +107,14 @@ public class GroceryListManager {
         }
     }
 
+    // Display items by category
     private void displayByCategoryInteractive() {
         System.out.print("Enter category to display: ");
         String category = scanner.nextLine();
         displayByCategory(category);
     }
 
+    // Display all items
     public void displayList() {
         System.out.println("\nGrocery List:");
         int index = 1;
@@ -113,6 +123,7 @@ public class GroceryListManager {
         }
     }
 
+    // Display items with quantity > 0
     public void displayAvailableItems() {
         System.out.println("\nAvailable Items:");
         for (GroceryItem item : groceryList.values()) {
@@ -122,6 +133,7 @@ public class GroceryListManager {
         }
     }
 
+    // Display items by category
     public void displayByCategory(String category) {
         System.out.println("\nItems in category: " + category);
         for (GroceryItem item : groceryList.values()) {
@@ -131,6 +143,7 @@ public class GroceryListManager {
         }
     }
 
+    // Calculate total cost of all items
     public double calculateTotalCost() {
         double total = 0.0;
         for (GroceryItem item : groceryList.values()) {
@@ -139,6 +152,7 @@ public class GroceryListManager {
         return total;
     }
 
+    // Entry point
     public static void main(String[] args) {
         GroceryListManager manager = new GroceryListManager();
         manager.start();
