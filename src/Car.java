@@ -1,106 +1,70 @@
-public class Car {
-    private double speed;               // Current speed of the car
-    private double gasolineLevel;       // Current fuel level
-    private final String typeName;      // Car model/type name
+// Perusautoluokka
+class Car {
+    protected int speed; // Nopeus km/h
+    protected int fuel;  // Polttoaine litroina
 
-    // Cruise control variables
-    private boolean cruiseControlOn;    // Is cruise control active?
-    private double cruiseTargetSpeed;   // Desired speed for cruise control
-    private final double MIN_CRUISE_SPEED = 30;  // Minimum allowed cruise speed
-    private final double MAX_CRUISE_SPEED = 120; // Maximum allowed cruise speed
-
-    // Constructor
-    public Car(String typeName) {
-        this.typeName = typeName;
-        speed = 0;
-        gasolineLevel = 0;
-        cruiseControlOn = false;
-        cruiseTargetSpeed = 0;
+    public Car() {
+        this.speed = 0;
+        this.fuel = 100; // Aloitetaan täydellä tankilla
     }
 
-    // Accelerate the car by 10 units if there's fuel
+    // Kiihdytys
     public void accelerate() {
-        if (gasolineLevel > 0) {
-            speed += 10;
-            gasolineLevel -= 1;
+        if (fuel > 0) {
+            speed += 10; // Lisää nopeutta 10 km/h
+            fuel -= 5;   // Kuluttaa polttoainetta 5 litraa
         } else {
-            speed = 0;
+            System.out.println("Out of fuel!");
         }
     }
 
-    // Decelerate the car by a given amount if there's fuel
-    public void decelerate(int amount) {
-        if (gasolineLevel > 0 && amount > 0) {
-            speed = Math.max(0, speed - amount);
-            gasolineLevel -= 0.5;
+    // Hidastus
+    public void brake() {
+        if (speed >= 10) {
+            speed -= 10; // Vähentää nopeutta 10 km/h
         } else {
-            speed = 0;
+            speed = 0;   // Auto pysähtyy
         }
     }
 
-    // Get current speed
-    public double getSpeed() {
-        return speed;
+    // Näyttää auton tiedot
+    public void displayStatus() {
+        System.out.println("Speed: " + speed + " km/h, Fuel: " + fuel + " L");
+    }
+}
+
+// Urheiluautoluokka
+class SportsCar extends Car {
+
+    public SportsCar() {
+        super();
     }
 
-    // Get car type name
-    public String getTypeName() {
-        return typeName;
-    }
-
-    // Fill the fuel tank to full (100 units)
-    public void fillTank() {
-        gasolineLevel = 100;
-    }
-
-    // Get current fuel level
-    public double getGasolineLevel() {
-        return gasolineLevel;
-    }
-
-    // Set cruise control target speed within allowed range
-    public void setCruiseTargetSpeed(double speed) {
-        if (speed >= MIN_CRUISE_SPEED && speed <= MAX_CRUISE_SPEED) {
-            cruiseTargetSpeed = speed;
+    // Parempi kiihdytys, mutta kuluttaa enemmän polttoainetta
+    @Override
+    public void accelerate() {
+        if (fuel > 0) {
+            speed += 20; // Lisää nopeutta 20 km/h
+            fuel -= 10;  // Kuluttaa polttoainetta 10 litraa
+        } else {
+            System.out.println("Out of fuel!");
         }
     }
 
-    // Get cruise control target speed
-    public double getCruiseTargetSpeed() {
-        return cruiseTargetSpeed;
-    }
+    // Hidastuminen voi pysyä samana kuin tavallisessa autossa
+}
 
-    // Turn cruise control on if conditions are met
-    public boolean turnCruiseControlOn() {
-        if (gasolineLevel > 0 &&
-                cruiseTargetSpeed >= MIN_CRUISE_SPEED &&
-                cruiseTargetSpeed <= MAX_CRUISE_SPEED) {
-            cruiseControlOn = true;
-            return true;
-        }
-        cruiseControlOn = false;
-        return false;
-    }
+public class Main {
+    public static void main(String[] args) {
+        Car normalCar = new Car();
+        SportsCar fastCar = new SportsCar();
 
-    // Turn cruise control off
-    public void turnCruiseControlOff() {
-        cruiseControlOn = false;
-    }
+        System.out.println("Normal Car:");
+        normalCar.accelerate();
+        normalCar.displayStatus();
 
-    // Update cruise control behavior based on current speed and fuel
-    public void updateCruiseControl() {
-        if (!cruiseControlOn || gasolineLevel <= 0) return;
-
-        if (speed < cruiseTargetSpeed) {
-            accelerate();
-        } else if (speed > cruiseTargetSpeed) {
-            decelerate(5);
-        }
-
-        // Disable cruise control if fuel runs out or speed drops to zero
-        if (gasolineLevel <= 0 || speed == 0) {
-            cruiseControlOn = false;
-            System.out.println("Cruise control deactivated due to low fuel or zero speed.");
-        }
+        System.out.println("\nSports Car:");
+        fastCar.accelerate();
+        fastCar.displayStatus();
     }
 }
